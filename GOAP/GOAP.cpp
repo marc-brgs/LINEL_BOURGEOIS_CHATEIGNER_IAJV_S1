@@ -10,14 +10,14 @@ namespace StarterResources {
     constexpr int Wood = 0;
     constexpr int Stone = 0;
     constexpr int Food = 0;
-    constexpr int Worker = 0;
+    constexpr int Workers = 0;
+    constexpr int Houses = 0;
 }
 
 bool objectiveReached = false;
 
-int main()
-{
-    World world(StarterResources::Wood, StarterResources::Stone, StarterResources::Food, StarterResources::Worker);
+int main() {
+    World world(StarterResources::Wood, StarterResources::Stone, StarterResources::Food, StarterResources::Workers, StarterResources::Houses);
 
     while(!objectiveReached) {
         std::cout << "Action test\n";

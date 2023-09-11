@@ -2,17 +2,35 @@
 
 
 class World {
-public:
+private:
     int wood;
     int stone;
     int food;
     int workers;
+    int houses;
 
-    int houseNumber;
-
+public:
     // Constructeur
-    World(int w, int s, int f, int wk) : wood(w), stone(s), food(f), workers(wk) {
-        houseNumber = 0;
-    }
+    World(int w, int s, int f, int wk, int h) : wood(w), stone(s), food(f), workers(wk), houses(h) {}
+
+    void AddWood(int amount);
+    
+    int const GetWood() const;
+
+    void AddStone(int amount);
+    
+    int const GetStone() const;
+
+    void AddFood(int amount);
+
+    int const GetFood() const;
+
+    void AddWorker(int amount);
+
+    int const GetWorkers() const;
+
+    void AddHouse(int amount);
+
+    int const GetHouses() const;
 };
 
