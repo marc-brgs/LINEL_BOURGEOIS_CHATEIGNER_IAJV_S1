@@ -9,6 +9,13 @@ public:
     virtual int GetCost() const = 0;
 };
 
+class IdleAction : public Action {
+public:
+    bool IsValid(const World& current) const override;
+    void Execute(World& current) const override;
+    int GetCost() const override;
+};
+
 class GatherWoodAction : public Action {
 public:
     bool IsValid(const World& current) const override;

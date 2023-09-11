@@ -1,5 +1,19 @@
 #include "Action.h"
 
+// IdleAction
+
+bool IdleAction::IsValid(const World& current) const {
+    return true;
+}
+
+void IdleAction::Execute(World& current) const {
+
+}
+
+int IdleAction::GetCost() const {
+    return 0;
+}
+
 // GatherWoodAction
 
 bool GatherWoodAction::IsValid(const World& current) const {
@@ -11,7 +25,7 @@ void GatherWoodAction::Execute(World& current) const {
 }
 
 int GatherWoodAction::GetCost() const {
-    return 1;
+    return 4;
 }
 
 // GatherStoneAction
@@ -25,7 +39,7 @@ void GatherStoneAction::Execute(World& current) const {
 }
 
 int GatherStoneAction::GetCost() const {
-    return 1;
+    return 5;
 }
 
 // GatherFoodAction
@@ -39,7 +53,7 @@ void GatherFoodAction::Execute(World& current) const {
 }
 
 int GatherFoodAction::GetCost() const {
-    return 1;
+    return 2;
 }
 
 // GenerateWorkerAction
@@ -54,7 +68,7 @@ void GenerateWorkerAction::Execute(World& current) const {
 }
 
 int GenerateWorkerAction::GetCost() const {
-    return 1;
+    return 3;
 }
 
 // BuildHouseAction

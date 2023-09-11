@@ -13,6 +13,8 @@ public:
     // Constructeur
     World(int w, int s, int f, int wk, int h) : wood(w), stone(s), food(f), workers(wk), houses(h) {}
 
+    void Debug() const;
+
     void AddWood(int amount);
     
     int const GetWood() const;

@@ -1,4 +1,9 @@
 #include "World.h"
+#include <iostream>
+
+void World::Debug() const {
+	std::cout << "Wood : " << this->wood << ", Stone : " << this->stone << ", Food : " << this->food << ", Workers : " << this->workers << ", Houses : " << this->houses << "\n";
+}
 
 void World::AddWood(int amount) {
 	this->wood += amount;
