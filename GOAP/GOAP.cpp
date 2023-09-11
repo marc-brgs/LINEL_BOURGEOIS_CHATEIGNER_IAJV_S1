@@ -17,14 +17,14 @@ namespace StarterResources {
     constexpr int Stone = 0;
     constexpr int Food = 5;
     constexpr int Workers = 1;
-    constexpr int Houses = 4;
+    constexpr int Houses = 0;
 }
 
 bool objectiveReached = false;
 
 int main() {
     World world(StarterResources::Wood, StarterResources::Stone, StarterResources::Food, StarterResources::Workers, StarterResources::Houses);
-    World goalState(0, 0, 0, 0, 5);
+    World goalState(0, 0, 0, 0, 1);
 
     std::vector<Action*> availableActions;
     availableActions.push_back(new GatherWoodAction());
@@ -34,7 +34,7 @@ int main() {
     availableActions.push_back(new BuildHouseAction());
 
     std::vector<Action*> plan = PlanGOAP(world, goalState, availableActions);
-    std::cout << "Plan defined" << "\n";
+    std::cout << "GOAP Plan defined" << "\n\n";
 
     for(Action* action : plan) {
         if (action->IsValid(world)) {
@@ -47,9 +47,16 @@ int main() {
         Sleep(2000);
     }
 
+    std::cout << "Final world : ";
+    world.Debug();
+    std::cout << "Goal world : ";
+    goalState.Debug();
+
     for (Action* action : availableActions) {
         delete action;
     }
+
+    std::cout << "\nEND PROGRAM\n";
 }
 
 // Structure pour représenter un nœud dans la recherche GOAP
@@ -78,7 +85,7 @@ std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState,
         openSet.erase(minNodeIt);
 
         // Vérifier si l'objectif est atteint
-        if (currentNode.state.GetHouses() >= goalState.GetHouses()) {
+        if (currentNode.state >= goalState) {
             return currentNode.plan;
         }
 

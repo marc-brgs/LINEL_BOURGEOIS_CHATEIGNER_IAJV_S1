@@ -1,6 +1,14 @@
 #include "World.h"
 #include <iostream>
 
+bool World::operator>=(const World& other) const {
+	return wood >= other.wood &&
+		stone >= other.stone &&
+		food >= other.food &&
+		workers >= other.workers &&
+		houses >= other.houses;
+}
+
 void World::Debug() const {
 	std::cout << "Wood : " << this->wood << ", Stone : " << this->stone << ", Food : " << this->food << ", Workers : " << this->workers << ", Houses : " << this->houses << "\n";
 }
