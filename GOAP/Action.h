@@ -16,6 +16,7 @@ public:
     void AddPrecondition(const Precondition& precondition);
     void AddEffect(const Effect& effect);
     void SetCost(int actionCost);
+    int const GetCost() const;
 
 private:
     std::string actionName;

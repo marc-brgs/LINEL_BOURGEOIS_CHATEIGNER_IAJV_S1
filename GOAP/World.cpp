@@ -13,6 +13,24 @@ void World::Debug() const {
 	std::cout << "Wood : " << this->wood << ", Stone : " << this->stone << ", Food : " << this->food << ", Workers : " << this->workers << ", Houses : " << this->houses << "\n";
 }
 
+int* World::GetResource(Resources type) {
+	switch (type)
+	{
+	case Resources::Wood:
+		return &wood;
+	case Resources::Stone:
+		return &stone;
+	case Resources::Food:
+		return &food;
+	case Resources::Workers:
+		return &workers;
+	case Resources::Houses:
+		return &houses;
+	default:
+		return nullptr;
+	}
+}
+
 void World::AddWood(int amount) {
 	this->wood += amount;
 }

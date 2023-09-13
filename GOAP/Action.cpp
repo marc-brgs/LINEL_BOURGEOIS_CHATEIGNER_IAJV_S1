@@ -31,3 +31,6 @@ void Action::SetCost(int actionCost) {
     cost = actionCost;
 }
 
+int const Action::GetCost() const {
+    return cost;
+}

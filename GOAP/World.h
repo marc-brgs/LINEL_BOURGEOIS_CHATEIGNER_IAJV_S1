@@ -3,21 +3,21 @@
 
 class World {
 private:
-    
-
-public:
     int wood;
     int stone;
     int food;
     int workers;
     int houses;
 
+public:
     // Constructeur
     World(int w, int s, int f, int wk, int h) : wood(w), stone(s), food(f), workers(wk), houses(h) {}
 
     bool operator>=(const World& other) const;
 
     void Debug() const;
+
+    int* GetResource(Resources type);
 
     void AddWood(int amount);
     int const GetWood() const;
@@ -33,23 +33,5 @@ public:
 
     void AddHouse(int amount);
     int const GetHouses() const;
-
-    int* GetResource(Resources type) {
-        switch (type)
-        {
-        case Resources::Wood:
-            return &wood;
-        case Resources::Stone:
-            return &stone;
-        case Resources::Food:
-            return &food;
-        case Resources::Workers:
-            return &workers;
-        case Resources::Houses:
-            return &houses;
-        default:
-            return nullptr;
-        }
-    }
 };
 
