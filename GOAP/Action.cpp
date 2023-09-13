@@ -2,14 +2,21 @@
 
 Action::Action(const std::string& actionName) : actionName(actionName), cost(0) {}
 
-bool Action::IsApplicable() const {
-    // Vérifier si toutes les préconditions de l'action sont satisfaites.
+// Vérifier si toutes les préconditions de l'action sont satisfaites
+bool Action::IsApplicable(World world) const {
     for (const Precondition& precondition : preconditions) {
-        if (!precondition.IsSatisfied()) {
-            return false; // Une précondition n'est pas satisfaite.
+        if (!precondition.IsSatisfied(world)) {
+            return false;
         }
     }
     return true;
+}
+
+void Action::Apply(World& world) const {
+    for (const Effect& effect : effects) {
+        effect.Execute(world);
+    }
+    //return world;
 }
 
 void Action::AddPrecondition(const Precondition& precondition) {
@@ -24,11 +31,3 @@ void Action::SetCost(int actionCost) {
     cost = actionCost;
 }
 
-
-Action* chopWoodAction = new Action("Chop Wood");
-Action* gatherStoneAction = new Action("Gather Stones");
-Action* gatherApplesAction = new Action("Gather Apples");
-Action* recruitWorkerAction = new Action("Recruit Worker");
-Action* reassignWorkerAction = new Action("Reassign Worker");
-Action* feedWorkerAction = new Action("Feed Worker");
-Action* buildHouseAction = new Action("Build House");

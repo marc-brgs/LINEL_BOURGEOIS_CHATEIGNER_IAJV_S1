@@ -1,13 +1,8 @@
 #include "Precondition.h"
-#include "World.h"
 
+// Comparaison entre la valeur actuelle et la valeur nécessaire
+bool Precondition::IsSatisfied(World world) const {
+    //assert(world.GetResource(type) == nullptr);
 
-Precondition::Precondition(int current, int needed)
-    : currentValue(current), neededValue(needed) {}
-
-bool Precondition::IsSatisfied() const {
-    // Comparaison entre la valeur actuelle et la valeur nécessaire
-    return currentValue >= neededValue;
+    return *world.GetResource(type) >= neededValue;
 }
-
-Precondition workerAvailablePrecondition(0, 1);

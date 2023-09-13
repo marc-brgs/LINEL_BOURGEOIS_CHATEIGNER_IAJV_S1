@@ -11,7 +11,8 @@ class Action {
 public:
     Action(const std::string& name);
 
-    bool IsApplicable() const;
+    bool IsApplicable(World world) const;
+    void Apply(World& world) const;
     void AddPrecondition(const Precondition& precondition);
     void AddEffect(const Effect& effect);
     void SetCost(int actionCost);

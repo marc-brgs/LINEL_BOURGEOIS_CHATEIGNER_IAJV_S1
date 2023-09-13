@@ -11,6 +11,7 @@
 #include "Action.h"
 #include "Precondition.h"
 #include "Effect.h"
+#include "Resources.h"
 
 
 std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState, const std::vector<Action*>& availableActions);
@@ -23,25 +24,69 @@ namespace StarterResources {
     constexpr int Houses = 0;
 }
 
+namespace GoalResources {
+    constexpr int Wood = 0;
+    constexpr int Stone = 0;
+    constexpr int Food = 0;
+    constexpr int Workers = 0;
+    constexpr int Houses = 1;
+}
+
 bool objectiveReached = false;
 
 int main() {
     World world(StarterResources::Wood, StarterResources::Stone, StarterResources::Food, StarterResources::Workers, StarterResources::Houses);
-    World goalState(0, 0, 0, 0, 1);
+    World goalState(GoalResources::Wood, GoalResources::Stone, GoalResources::Food, GoalResources::Workers, GoalResources::Houses);
+
+    Action* chopWoodAction = new Action("Chop Wood");
+    Action* gatherStoneAction = new Action("Gather Stones");
+    Action* gatherApplesAction = new Action("Gather Apples");
+    Action* recruitWorkerAction = new Action("Recruit Worker");
+    Action* buildHouseAction = new Action("Build House");
+    //Action* reassignWorkerAction = new Action("Reassign Worker");
+    //Action* feedWorkerAction = new Action("Feed Worker");
+
+    chopWoodAction->AddPrecondition(Precondition(Resources::Workers, 1));
+    chopWoodAction->AddEffect(Effect(Resources::Wood, 1));
+
+    gatherStoneAction->AddPrecondition(Precondition(Resources::Workers, 1));
+    gatherStoneAction->AddEffect(Effect(Resources::Stone, 1));
+
+    gatherApplesAction->AddPrecondition(Precondition(Resources::Workers, 1));
+    gatherApplesAction->AddEffect(Effect(Resources::Food, 1));
+
+    recruitWorkerAction->AddPrecondition(Precondition(Resources::Food, 5));
+    recruitWorkerAction->AddEffect(Effect(Resources::Workers, 1));
+
+    buildHouseAction->AddPrecondition(Precondition(Resources::Wood, 20));
+    buildHouseAction->AddPrecondition(Precondition(Resources::Stone, 10));
+    buildHouseAction->AddEffect(Effect(Resources::Houses, 1));
+
 
     std::vector<Action*> availableActions;
-    availableActions.push_back(new GatherWoodAction());
-    availableActions.push_back(new GatherStoneAction());
-    availableActions.push_back(new GatherFoodAction());
-    availableActions.push_back(new GenerateWorkerAction());
-    availableActions.push_back(new BuildHouseAction());
+    availableActions.push_back(chopWoodAction);
+    availableActions.push_back(gatherStoneAction);
+    availableActions.push_back(gatherApplesAction);
+    availableActions.push_back(recruitWorkerAction);
+    availableActions.push_back(buildHouseAction);
 
-    std::vector<Action*> plan = PlanGOAP(world, goalState, availableActions);
-    std::cout << "GOAP Plan defined" << "\n\n";
+    std::vector<Action*> plan; //= PlanGOAP(world, goalState, availableActions);
+    if (plan.empty()) {
+        std::cout << "GOAP Plan not defined (empty)" << "\n\n";
+    }
+    else {
+        std::cout << "GOAP Plan defined" << "\n\n";
+    }
+
+    if (gatherStoneAction->IsApplicable(world)) {
+        gatherStoneAction->Apply(world);
+        world.Debug();
+    }
+    
 
     for(Action* action : plan) {
-        if (action->IsValid(world)) {
-            action->Execute(world);
+        if (action->IsApplicable(world)) {
+            action->Apply(world);
             world.Debug();
         }
         else {
@@ -50,7 +95,7 @@ int main() {
         Sleep(2000);
     }
 
-    std::cout << "Final world : ";
+    std::cout << "\nFinal world : ";
     world.Debug();
     std::cout << "Goal world : ";
     goalState.Debug();
@@ -62,6 +107,7 @@ int main() {
     std::cout << "\nEND PROGRAM\n";
 }
 
+/*
 // Structure pour représenter un nœud dans la recherche GOAP
 struct GOAPNode {
     World state;
@@ -112,4 +158,4 @@ std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState,
     }
 
     return {}; // Aucun plan trouvé
-}
+}*/

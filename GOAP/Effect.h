@@ -1,15 +1,15 @@
 #pragma once
 #include <string>
+#include <cassert>
+#include "World.h"
 
 class Effect {
 public:
-    Effect(const std::string& name, int value);
+    Effect(Resources t, int o) : type(t), offset(o) {}
 
-    const std::string& GetName() const;
-    int GetValue() const;
+    void Execute(World& world) const;
 
 private:
-    std::string effectName;
-    int value;
+    Resources type;
+    int offset;
 };
-

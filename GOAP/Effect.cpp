@@ -1,11 +1,7 @@
 #include "Effect.h"
+#include <iostream>
+void Effect::Execute(World& world) const {
+	//assert(world.GetResource(type) == nullptr);
 
-Effect::Effect(const std::string& effectName, int effectValue) : effectName(effectName), value(effectValue) {}
-
-const std::string& Effect::GetName() const {
-    return effectName;
-}
-
-int Effect::GetValue() const {
-    return value;
+	*world.GetResource(type) += offset;
 }

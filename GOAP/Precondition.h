@@ -1,15 +1,18 @@
 #pragma once
 #include <string>
 #include <map>
+#include <cassert>
+#include "Resources.h"
+#include "World.h"
 
 class Precondition {
 public:
-    Precondition(int currentValue, int neededValue);
+    Precondition(Resources t, int needed) : type(t), neededValue(needed) {};
 
-    bool IsSatisfied() const;
+    bool IsSatisfied(World world) const;
 
 private:
-    int currentValue;
+    Resources type;
     int neededValue;
 };
 
