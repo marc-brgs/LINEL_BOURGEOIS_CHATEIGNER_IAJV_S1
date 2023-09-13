@@ -141,7 +141,7 @@ struct GOAPNode {
 
 // Fonction pour calculer la valeur heuristique entre deux états
 int CalculateHeuristic(const World& currentState, const World& goalState, const std::vector<Precondition>& unsatisfiedPreconditions) {
-    int heuristic = unsatisfiedPreconditions.size() * 10;
+    int heuristic = unsatisfiedPreconditions.size();
 
     return heuristic;
 }
