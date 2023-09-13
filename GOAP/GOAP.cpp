@@ -9,6 +9,9 @@
 
 #include "World.h"
 #include "Action.h"
+#include "Precondition.h"
+#include "Effect.h"
+
 
 std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState, const std::vector<Action*>& availableActions);
 
