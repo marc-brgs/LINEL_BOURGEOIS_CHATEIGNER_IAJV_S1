@@ -38,6 +38,10 @@ int main() {
     // Define intial and goal states
     World world(StarterResources::Wood, StarterResources::Stone, StarterResources::Food, StarterResources::Workers, StarterResources::Houses);
     World goalState(GoalResources::Wood, GoalResources::Stone, GoalResources::Food, GoalResources::Workers, GoalResources::Houses);
+    
+    std::cout << "\nStart world : ";
+    world.Debug();
+    std::cout << "\n";
 
     // Define actions
     std::vector<Action*> availableActions;
@@ -52,6 +56,7 @@ int main() {
         std::cout << "GOAP Plan defined" << "\n\n";
     }
     
+    availableActions.at(0)->Apply(world);
     // Apply plan
     for(Action* action : plan) {
         if (action->IsApplicable(world)) {

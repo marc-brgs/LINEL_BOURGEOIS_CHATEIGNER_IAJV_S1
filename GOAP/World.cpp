@@ -1,5 +1,6 @@
 #include "World.h"
 #include <iostream>
+#include <cassert>
 
 bool World::operator>=(const World& other) const {
 	return wood >= other.wood &&
@@ -27,6 +28,7 @@ int* World::GetResource(Resources type) {
 	case Resources::Houses:
 		return &houses;
 	default:
+		assert(false);
 		return nullptr;
 	}
 }
