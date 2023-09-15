@@ -1,2 +1,2 @@
 # LINEL_BOURGEOIS_CHATEIGNER_IAJV_S1
-GOAP + Utility AI
+GOAP algorithm implementation
