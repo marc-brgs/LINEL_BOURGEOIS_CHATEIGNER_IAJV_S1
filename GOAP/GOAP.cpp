@@ -153,60 +153,57 @@ int CalculateHeuristic(const World& currentState, const World& goalState, const 
 
 
 std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState, const std::vector<Action*>& availableActions) {
-    /*std::vector<GOAPNode> openSet;
-    std::unordered_map<World, GOAPNode*> cameFrom;
+    std::vector<GOAPNode> openNode;
+    std::vector<Precondition> unsatisfiedPreconditions;
 
-    // Créez un nœud initial avec l'état initial et une valeur heuristique
-    std::vector<Precondition> unsatisfiedPreconditions = GetUnsatisfiedPreconditions(initialState, goalState, availableActions);
-    int initialHeuristic = CalculateHeuristic(initialState, goalState, unsatisfiedPreconditions);
-    GOAPNode initialNode(initialState, nullptr, 0, nullptr, initialHeuristic, unsatisfiedPreconditions);
+    // Ajoutez le nœud initial avec les préconditions du monde initial
+    openNode.push_back(GOAPNode(initialState, nullptr, 0, nullptr, CalculateHeuristic(initialState, goalState, unsatisfiedPreconditions)));
 
-    // Ajoutez l'état initial à la liste ouverte
-    openSet.push_back(initialNode);
-    cameFrom[initialState] = &openSet.back();
-
-    while (!openSet.empty()) {
-        // Trouvez le nœud avec le coût total le plus bas (f = coût + heuristique)
-        auto minNodeIt = std::min_element(openSet.begin(), openSet.end(), [](const GOAPNode& a, const GOAPNode& b) {
-            return (a.cost + a.heuristic) < (b.cost + b.heuristic);
+    while (!openNode.empty()) {
+        // Triez la liste openNode en fonction du coût + heuristique le plus bas
+        std::sort(openNode.begin(), openNode.end(), [](const GOAPNode& a, const GOAPNode& b) {
+            return a.cost + a.heuristic < b.cost + b.heuristic;
             });
-        GOAPNode currentNode = *minNodeIt;
-        openSet.erase(minNodeIt);
 
-        // Vérifiez si l'objectif est atteint
-        if (currentNode.state >= goalState) {
-            // Reconstruction du plan depuis l'état initial
+        // Sélectionnez le nœud avec le coût + heuristique le plus bas
+        GOAPNode currentNode = openNode.front();
+        openNode.erase(openNode.begin());
+
+        // Si toutes les préconditions sont satisfaites, nous avons trouvé une solution
+        if (unsatisfiedPreconditions.empty()) {
+            // Construisez et retournez le plan à partir du nœud final
             std::vector<Action*> plan;
-            GOAPNode node = currentNode;
-            while (node.parent != nullptr) {
-                plan.push_back(node.action);
-                node = *node.parent;
+            while (currentNode.parent != nullptr) {
+                plan.insert(plan.begin(), currentNode.action); // Ajoutez l'action au début du plan
+                currentNode = *currentNode.parent;
             }
-            std::reverse(plan.begin(), plan.end()); // Inversion car nous avons suivi les prédécesseurs depuis l'objectif
             return plan;
         }
 
         // Explorez les actions disponibles
         for (Action* action : availableActions) {
-            // Vérifiez les préconditions pour chaque action applicable
-            std::vector<Precondition> remainingPreconditions = GetRemainingPreconditions(action, currentNode.state);
-            if (!remainingPreconditions.empty()) {
-                // Appliquez l'action à un nouvel état
-                World nextState = currentNode.state;
-                action->Apply(nextState);
+            if (action->IsApplicable(currentNode.state)) {
+                // Vérifiez si toutes les préconditions sont satisfaites
+                bool allPreconditionsSatisfied = true;
+                for (const Precondition& precondition : action->GetPreconditions()) {
+                    if (!precondition.IsSatisfied(currentNode.state)) {
+                        allPreconditionsSatisfied = false;
+                        break; // Une précondition n'est pas satisfaite, donc ignorez cette action
+                    }
+                }
 
-                // Calcul de la valeur heuristique pour le nouvel état
-                int heuristic = CalculateHeuristic(nextState, goalState, remainingPreconditions);
+                if (allPreconditionsSatisfied) {
+                    // Appliquez l'action pour obtenir un nouvel état
+                    World nextState = currentNode.state;
+                    action->Apply(nextState);
 
-                // Créez un nouveau nœud pour cet état
-                int newCost = currentNode.cost + action->GetCost();
-                openSet.push_back(GOAPNode(nextState, action, newCost, &currentNode, heuristic, remainingPreconditions));
-
-                // Stockez le nœud parent dans cameFrom
-                cameFrom[nextState] = &openSet.back();
+                    // Créez un nouveau nœud pour cet état
+                    GOAPNode newNode(nextState, action, currentNode.cost + action->GetCost(), &currentNode, CalculateHeuristic(nextState, goalState, unsatisfiedPreconditions));
+                    openNode.push_back(newNode);
+                }
             }
         }
-    }*/
+    }
 
     return {}; // Aucun plan trouvé
 }

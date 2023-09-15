@@ -18,6 +18,14 @@ public:
     void SetCost(int actionCost);
     int const GetCost() const;
 
+    std::vector<Effect> const& GetEffects() const {
+        return effects;
+    }
+
+    std::vector<Precondition> const& GetPreconditions() const {
+        return preconditions;
+    }
+
 private:
     std::string actionName;
     std::vector<Precondition> preconditions;
