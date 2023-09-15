@@ -103,10 +103,10 @@ int CalculateHeuristic(const World& currentState, const World& goalState, const 
     return heuristic;
 }
 
-
+// Retourne toujours un plan vide car unsatisfiedPreconditions est vide
 std::vector<Action*> PlanGOAP(const World& initialState, const World& goalState, const std::vector<Action*>& availableActions) {
     std::vector<GOAPNode> openNode;
-    std::vector<Precondition> unsatisfiedPreconditions;
+    std::vector<Precondition> unsatisfiedPreconditions; // COMMENT LE REMPLIR ?????
 
     // Ajoutez le noeud initial avec les préconditions du monde initial
     openNode.push_back(GOAPNode(initialState, nullptr, 0, nullptr, CalculateHeuristic(initialState, goalState, unsatisfiedPreconditions)));
