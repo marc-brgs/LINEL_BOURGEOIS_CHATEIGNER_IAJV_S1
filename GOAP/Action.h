@@ -11,20 +11,15 @@ class Action {
 public:
     Action(const std::string& name);
 
-    bool IsApplicable(World world) const;
+    bool IsApplicable(World& world) const;
     void Apply(World& world) const;
     void AddPrecondition(const Precondition& precondition);
     void AddEffect(const Effect& effect);
     void SetCost(int actionCost);
     int const GetCost() const;
 
-    std::vector<Effect> const& GetEffects() const {
-        return effects;
-    }
-
-    std::vector<Precondition> const& GetPreconditions() const {
-        return preconditions;
-    }
+    std::vector<Effect> const& GetEffects() const;
+    std::vector<Precondition> const& GetPreconditions() const;
 
 private:
     std::string actionName;
