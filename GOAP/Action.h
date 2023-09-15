@@ -1,17 +1,29 @@
 #pragma once
 
 #include "World.h"
+#include "Precondition.h"
+#include "Effect.h"
+#include <string>
+#include <vector>
+
 
 class Action {
 public:
-    virtual bool IsValid(const World& current) const = 0; // prérequis
-    virtual void Execute(World& current) const = 0;
-    virtual int GetCost() const = 0;
-};
+    Action(const std::string& name);
 
-class GatherWoodAction : public Action {
-public:
-    bool IsValid(const World& current) const override;
-    void Execute(World& current) const override;
-    int GetCost() const override;
+    bool IsApplicable(World& world) const;
+    void Apply(World& world) const;
+    void AddPrecondition(const Precondition& precondition);
+    void AddEffect(const Effect& effect);
+    void SetCost(int actionCost);
+    int const GetCost() const;
+
+    std::vector<Effect> const& GetEffects() const;
+    std::vector<Precondition> const& GetPreconditions() const;
+
+private:
+    std::string actionName;
+    std::vector<Precondition> preconditions;
+    std::vector<Effect> effects;
+    int cost;
 };
