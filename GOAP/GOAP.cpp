@@ -57,7 +57,8 @@ int main() {
         std::cout << "GOAP Plan defined" << "\n\n";
     }
     
-    availableActions.at(0)->Apply(world);
+    availableActions.at(0)->Apply(world); // Test ajout manuel de bois 
+    
     // Apply plan
     for(Action* action : plan) {
         if (action->IsApplicable(world)) {
